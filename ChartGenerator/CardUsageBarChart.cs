@@ -2,12 +2,15 @@
 using ChartJSCore.Models;
 using OfficeOpenXml;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BinanceCardCharts
 {
     public static class CardUsageBarChart
     {
         private const string BINANCE_FILE = "C:\\temp\\binance\\binance_card_chart_data.xlsx";
+        private const string EUR = "EUR";
+        private static readonly Regex _regex = new("[^0-9.]");
 
         public static Chart GenerateDailyChart()
         {
@@ -25,8 +28,7 @@ namespace BinanceCardCharts
             int binanceStart = binanceSheet.Dimension.Start.Row + 1;
             int binanceEnd = binanceSheet.Dimension.End.Row;
 
-            var transactionsPerDay = new Dictionary<int, double>();
-
+            var transactionsPerDay = new Dictionary<int, double?>();
 
             for (int row = binanceStart; row <= binanceEnd; row++)
             {
@@ -39,9 +41,9 @@ namespace BinanceCardCharts
                     day: Convert.ToInt32(dateParts[2])
                 );
 
-                // Set amount and currency
+                // Calculate amount spent in EUR
                 string[] assetUsed = binanceSheet.Cells[row, 6].Text.Split(' ');
-                double amountSpent = Convert.ToDouble($"{assetUsed[1].Replace(";", "")}", CultureInfo.InvariantCulture);
+                double amountSpent = ConvertAmountToEur(assetUsed, binanceSheet.Cells[row, 7].Text.Split('='));
 
                 if (transactionsPerDay.ContainsKey(transactionDate.DayOfYear))
                 {
@@ -52,13 +54,18 @@ namespace BinanceCardCharts
                     transactionsPerDay.Add(transactionDate.DayOfYear, amountSpent);
                 }
 
-                data.Labels.Add(transactionDate.ToString("yyyy-MM-dd"));
+                var transDateString = transactionDate.ToString("yyyy-MM-dd");
+
+                if (!data.Labels.Contains(transDateString))
+                {
+                    data.Labels.Add(transDateString);
+                }
             }
 
             var dataset = new BarDataset
             {
-                Label = "# of Votes",
-                Data = new List<double?> { 12, 19, 3, null, 2, 3 },
+                Label = "Amount spent per day",
+                Data = transactionsPerDay.Values.ToList(),
                 BackgroundColor = new List<ChartColor>
                 {
                     ChartColor.FromRgba(255, 99, 132, 0.2),
@@ -79,9 +86,9 @@ namespace BinanceCardCharts
                 },
                 BorderWidth = new List<int> { 1 },
                 BarPercentage = 0.5,
-                BarThickness = 6,
-                MaxBarThickness = 8,
-                MinBarLength = 2
+                BarThickness = 10,
+                MaxBarThickness = 15,
+                MinBarLength = 1
             };
 
             data.Datasets = new List<Dataset> { dataset };
@@ -123,6 +130,46 @@ namespace BinanceCardCharts
             };
 
             return chart;
+        }
+
+        private static double ConvertAmountToEur(string[] assetUsed, string[] exchangeRates)
+        {
+            // Using only EUR to finance transaction
+            if (exchangeRates.Length == 1)
+            {
+                return Convert.ToDouble($"{assetUsed[1].Replace(";", "")}", CultureInfo.InvariantCulture);
+            }
+
+            // Using only one asset to finance transaction
+            if (assetUsed.Length == 2)
+            {
+                double beforeConvertion = Convert.ToDouble($"{assetUsed[1].Replace(";", "")}", CultureInfo.InvariantCulture);
+                double convertionRate = Convert.ToDouble(_regex.Replace(exchangeRates[1], ""), CultureInfo.InvariantCulture);
+                return Math.Round(beforeConvertion / convertionRate, 2);
+            }
+
+            // Using assets two assets finance transaction
+            if (assetUsed.Length == 4)
+            {
+                double totalEurAmount = 0;
+
+                if (assetUsed[0].Equals(EUR))
+                {
+                    totalEurAmount = Convert.ToDouble($"{assetUsed[1].Replace(";", "")}", CultureInfo.InvariantCulture);
+                }
+/*                else
+                {
+                    double beforeConvertion = Convert.ToDouble($"{assetUsed[1].Replace(";", "")}", CultureInfo.InvariantCulture);
+                    double convertionRate = Convert.ToDouble(_regex.Replace(exchangeRates[2], ""), CultureInfo.InvariantCulture);
+                    totalEurAmount += Math.Round(totalEurAmount + (beforeConvertion / convertionRate), 2);
+                }*/
+
+                double beforeConvertion = Convert.ToDouble($"{assetUsed[3].Replace(";", "")}", CultureInfo.InvariantCulture);
+                double convertionRate = Convert.ToDouble(_regex.Replace(exchangeRates[1], ""), CultureInfo.InvariantCulture);
+                return Math.Round(totalEurAmount + (beforeConvertion / convertionRate), 2);
+            }
+
+            throw new NotImplementedException();
         }
 
         private static int GetMonth(string month) => month switch
