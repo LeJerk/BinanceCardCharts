@@ -7,4 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ChartJSCore" Version="3.0.1" />
+    <PackageReference Include="IronPdf" Version="2022.2.4887" />
+    <PackageReference Include="Razor.Templating.Core" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="html\BinanceChart.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

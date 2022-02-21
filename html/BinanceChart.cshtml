@@ -1,0 +1,21 @@
+@{
+    ChartJSCore.Models.Chart chart = BinanceCardToKoinly.Program.GenerateBarChart();
+}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chart Example</title>
+  </head>
+  <body>
+    <h1>Chart Example</h1>
+    <div><canvas id="binanceCardChart"></canvas></div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            @Html.Raw(chart.CreateChartCode("barChart"));
+        </script>
+    }
+  </body>
+</html>
