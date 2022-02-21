@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinanceCardCharts", "BinanceCardCharts.csproj", "{ECEA0EC0-1719-4FEE-8973-9F7A93F933F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinanceCardCharts", "BinanceCardCharts.csproj", "{0F17E847-A4C5-45AA-A93E-21F01EFDFF15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ECEA0EC0-1719-4FEE-8973-9F7A93F933F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECEA0EC0-1719-4FEE-8973-9F7A93F933F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECEA0EC0-1719-4FEE-8973-9F7A93F933F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECEA0EC0-1719-4FEE-8973-9F7A93F933F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F17E847-A4C5-45AA-A93E-21F01EFDFF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F17E847-A4C5-45AA-A93E-21F01EFDFF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F17E847-A4C5-45AA-A93E-21F01EFDFF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F17E847-A4C5-45AA-A93E-21F01EFDFF15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6539884B-8005-4FB4-BF1F-B33FF769402C}
+		SolutionGuid = {A7C77880-90FA-4313-B27D-687B330E5DEF}
 	EndGlobalSection
 EndGlobal

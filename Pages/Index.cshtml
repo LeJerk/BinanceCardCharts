@@ -1,15 +1,16 @@
+﻿@page
 @{
-    ChartJSCore.Models.Chart chart = BinanceCardToKoinly.Program.GenerateBarChart();
+    ChartJSCore.Models.Chart chart = BinanceCardCharts.CardUsageBarChart.GenerateDailyChart();
 }
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Chart Example</title>
+    <title>Usage</title>
   </head>
   <body>
-    <h1>Chart Example</h1>
-    <div><canvas id="binanceCardChart"></canvas></div>
+    <h1>Usage</h1>
+    <div><canvas id="barChart"></canvas></div>
 
     @section Scripts {
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
