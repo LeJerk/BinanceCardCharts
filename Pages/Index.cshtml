@@ -3,20 +3,15 @@
     ChartJSCore.Models.Chart chart = BinanceCardCharts.CardUsageBarChart.GenerateDailyChart();
 }
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Usage</title>
-  </head>
-  <body>
-    <h1>Usage</h1>
-    <div><canvas id="barChart"></canvas></div>
+<h1>Daily usage</h1>
+<div><canvas id="barChart"></canvas></div>
 
-    @section Scripts {
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            @Html.Raw(chart.CreateChartCode("barChart"));
-        </script>
-    }
-  </body>
-</html>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        @Html.Raw(chart.CreateChartCode("barChart"));
+    </script>
+}
+
+<div>Total amount spent: @BinanceCardCharts.CardUsageBarChart.TotalAmountSpent EUR</div>
+<div>Estimated cashback: @BinanceCardCharts.CardUsageBarChart.EstimatedCashback EUR</div>
